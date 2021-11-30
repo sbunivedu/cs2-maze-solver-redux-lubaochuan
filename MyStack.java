@@ -18,4 +18,8 @@ public class MyStack<T> implements Frontier<T>{
   public int size(){
     return stack.size();
   }
+
+  public boolean contains(T newItem){
+    return stack.contains(newItem);
+  }
 }

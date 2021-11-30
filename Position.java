@@ -4,9 +4,10 @@
  * @author Lewis and Chase
  * @version 4.0
  */
-public class Position{
+public class Position implements Comparable<Position>{
   private int x; 
   private int y;
+  private int distance;
 
   /**
    * Constructs a position and sets the x & y coordinates to 0,0.
@@ -46,5 +47,22 @@ public class Position{
    */ 
   public void sety(int a){
     y = a;
+  }
+
+  public int getDistance(){
+    return distance;
+  }
+
+  public void setDistance(int newDistance){
+    distance = newDistance;
+  }
+
+  public boolean equals(Object obj){
+    Position p = (Position)obj;
+    return x == p.x && y == p.y;
+  }
+
+  public int compareTo(Position obj){
+    return (int) (this.distance - obj.distance);
   }
 }

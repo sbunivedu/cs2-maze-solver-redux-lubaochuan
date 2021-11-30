@@ -20,4 +20,8 @@ public class MyQueue<T> implements Frontier<T>{
     // TO BE IMPLEMENTED
     return 0;
   }
+
+  public boolean contains(T newItem){
+    return false;
+  }
 }

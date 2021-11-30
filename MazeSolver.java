@@ -31,13 +31,14 @@ public class MazeSolver{
     boolean done = false;
     int row, column;
     Position pos = new Position();
-    //Deque<Position> stack = new LinkedList<Position>();
-    Frontier<Position> frontier = new MyStack<Position>();
-    //stack.push(pos);
+    Frontier<Position> frontier = new AStar<Position>();
+    //Frontier<Position> frontier = new MyStack<Position>();
     frontier.add(pos);
     
     while (!(done) && frontier.size() != 0){
       pos = frontier.remove();
+      //System.out.println("removed ("+pos.getx()+","+pos.gety()+")");
+      maze.tryPosition(pos.getx(),pos.gety());  // this cell has been tried
       if (pos.getx() == maze.getRows()-1 && pos.gety() == maze.getColumns()-1){
         done = true;  // the maze is solved
       }else{
@@ -46,8 +47,13 @@ public class MazeSolver{
         push_new_pos(pos.getx(),pos.gety() - 1, frontier);
         push_new_pos(pos.getx(),pos.gety() + 1, frontier); 
       }
-      maze.tryPosition(pos.getx(),pos.gety());  // this cell has been tried
-      //System.out.println(maze);
+
+      System.out.print("\033\143"); 
+      System.out.println(maze);
+      System.out.println("frontier size:"+frontier.size());
+      try{
+        Thread.sleep(1000);
+      }catch(InterruptedException e){}
     }
 
     return done;
@@ -76,8 +82,20 @@ public class MazeSolver{
     Position npos = new Position();
     npos.setx(x);
     npos.sety(y);
+    /*
+    npos.setDistance(
+      Math.sqrt(
+        Math.pow(x-maze.getRows(), 2)+Math.pow(y-maze.getColumns(), 2)
+      ));
+    */
     if (maze.validPosition(x,y)){
-      frontier.add(npos);
+      if(!frontier.contains(npos)){
+        npos.setDistance(
+          Math.abs(maze.getRows()-x) + Math.abs(maze.getColumns()-y)
+        );
+        frontier.add(npos);
+        //System.out.println("add ("+x+","+y+")");
+      }
     }
   }
 }
